@@ -2,9 +2,7 @@ const Missing = () => {
   return (
     <>
       <main>
-        <main>
-          <h1>Missing </h1>
-        </main>
+        <h1>Missing </h1>
       </main>
     </>
   );
