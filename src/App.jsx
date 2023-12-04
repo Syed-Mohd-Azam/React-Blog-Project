@@ -24,8 +24,12 @@ function App() {
           <Route exact path="/post/:id">
             <PostPage />
           </Route>
-          <Route exact path="/about" component={<About />} />
-          <Route exact path="*" component={<Missing />} />
+          <Route exact path="/about">
+            <About />
+          </Route>
+          <Route exact path="*">
+            <Missing />
+          </Route>
         </Switch>
         <Footer />
       </div>
