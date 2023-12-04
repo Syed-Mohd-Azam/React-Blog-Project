@@ -7,17 +7,26 @@ import About from "./About";
 import Missing from "./Missing";
 import PostPage from "./PostPage";
 import Nav from "./Nav";
+import { Switch, Route } from "react-router-dom";
 function App() {
   return (
     <>
       <div className="app">
         <Header />
         <Nav />
-        <Home />
-        <NewPost />
-        <PostPage />
-        <About />
-        <Missing />
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route exact path="/post">
+            <NewPost />
+          </Route>
+          <Route exact path="/post/:id">
+            <PostPage />
+          </Route>
+          <Route exact path="/about" component={<About />} />
+          <Route exact path="*" component={<Missing />} />
+        </Switch>
         <Footer />
       </div>
     </>
