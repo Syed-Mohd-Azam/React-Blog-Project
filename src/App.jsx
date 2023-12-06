@@ -1,4 +1,3 @@
-import "./App.css";
 import Header from "./Header";
 import Footer from "./Footer";
 import Home from "./Home";
@@ -8,15 +7,44 @@ import Missing from "./Missing";
 import PostPage from "./PostPage";
 import Nav from "./Nav";
 import { Switch, Route } from "react-router-dom";
+import { useState } from "react";
 function App() {
+  const [posts, setPosts] = useState([
+    {
+      id: 1,
+      title: "My First Post",
+      datetime: "July 01, 2011 11:17:36 AM",
+      body: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    },
+    {
+      id: 2,
+      title: "My Second Post",
+      datetime: "July 01,2021 11:17:35 PM",
+      body: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. ",
+    },
+    {
+      id: 3,
+      title: "My Third Post",
+      datetime: "July 25, 2022 10:15 :23 AM",
+      body: "The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
+    },
+    {
+      id: 4,
+      title: "My Fourth Post",
+      datetime: "Aug 26, 2019 7:14:23 AM",
+      body: "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from  by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
+    },
+  ]);
+  const [search, setSearch] = useState("");
+  const [searchResults, setSearchresults] = useState([]);
   return (
     <>
       <div className="app">
-        <Header />
-        <Nav />
+        <Header title="React JS Blog" />
+        <Nav search={search} setSearch={setSearch} />
         <Switch>
           <Route exact path="/">
-            <Home />
+            <Home posts={posts} />
           </Route>
           <Route exact path="/post">
             <NewPost />
