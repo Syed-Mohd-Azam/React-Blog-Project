@@ -8,7 +8,9 @@ import PostPage from "./PostPage";
 import Nav from "./Nav";
 import { Switch, Route } from "react-router-dom";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 function App() {
+  const history = useHistory();
   const [posts, setPosts] = useState([
     {
       id: 1,
@@ -36,7 +38,13 @@ function App() {
     },
   ]);
   const [search, setSearch] = useState("");
-  const [searchResults, setSearchresults] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleDelete = (id) => {
+    const postList = posts.filter((post) => post.id !== id);
+    setPosts(postList);
+    history.push("/");
+  };
   return (
     <>
       <div className="app">
@@ -50,7 +58,7 @@ function App() {
             <NewPost />
           </Route>
           <Route exact path="/post/:id">
-            <PostPage />
+            <PostPage posts={posts} handledelete={handleDelete} />
           </Route>
           <Route exact path="/about">
             <About />
