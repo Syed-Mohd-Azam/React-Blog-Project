@@ -1,4 +1,11 @@
-const NewPost = ({ postTitle, setPostTitle, postBody, setPostBody }) => {
+/* eslint-disable react/prop-types */
+const NewPost = ({
+  postTitle,
+  setPostTitle,
+  postBody,
+  setPostBody,
+  handleSubmit,
+}) => {
   return (
     <>
       <main className="NewPost">
