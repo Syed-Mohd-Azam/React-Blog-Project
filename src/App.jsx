@@ -7,8 +7,9 @@ import Missing from "./Missing";
 import PostPage from "./PostPage";
 import Nav from "./Nav";
 import { Switch, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import format from "date-fns/format";
 function App() {
   const history = useHistory();
   const [posts, setPosts] = useState([
@@ -39,10 +40,29 @@ function App() {
   ]);
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-
+  const [postTitle, setPostTitle] = useState("");
+  const [postBody, setPostBody] = useState("");
+  useEffect(() => {
+    const filteredResults = posts.filter(
+      (post) =>
+        post.body.toLowerCase().includes(search.toLowerCase()) ||
+        post.title.toLowerCase().includes(search.toLowerCase())
+    );
+    setSearchResults(filteredResults.reverse());
+  }, [posts, search]);
   const handleDelete = (id) => {
     const postList = posts.filter((post) => post.id !== id);
     setPosts(postList);
+    history.push("/");
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const id = posts.length ? posts[posts.length - 1].id + 1 : 1;
+    const datetime = format(new Date(), "MMMM dd, yyyy pp");
+    const newPost = { id, datetime, title: postTitle, body: postBody };
+    setPosts([...posts, newPost]);
+    setPostTitle("");
+    setPostBody("");
     history.push("/");
   };
   return (
@@ -52,13 +72,19 @@ function App() {
         <Nav search={search} setSearch={setSearch} />
         <Switch>
           <Route exact path="/">
-            <Home posts={posts} />
+            <Home posts={searchResults} />
           </Route>
           <Route exact path="/post">
-            <NewPost />
+            <NewPost
+              postTitle={postTitle}
+              setPostTitle={setPostTitle}
+              postBody={postBody}
+              setPostBody={setPostBody}
+              handleSubmit={handleSubmit}
+            />
           </Route>
           <Route exact path="/post/:id">
-            <PostPage posts={posts} handledelete={handleDelete} />
+            <PostPage posts={posts} handleDelete={handleDelete} />
           </Route>
           <Route exact path="/about">
             <About />
